@@ -1,0 +1,18 @@
+IconOps.iconws package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   IconOps.iconws.handler
+
+Module contents
+---------------
+
+.. automodule:: IconOps.iconws
+   :members:
+   :undoc-members:
+   :show-inheritance:

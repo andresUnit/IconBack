@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>icon.sag.funciones package &mdash; Project-icon 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Project-icon 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="icon.sag package" href="icon.sag.html"/>
+        <link rel="next" title="icon.sag.reportes package" href="icon.sag.reportes.html"/>
+        <link rel="prev" title="icon.sag package" href="icon.sag.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Project-icon
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="icon.espesadores.html">icon.espesadores package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="icon.sag.html">icon.sag package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="icon.sag.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">icon.sag.funciones package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-icon.sag.funciones.f_distribution">icon.sag.funciones.f_distribution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-icon.sag.funciones.f_series">icon.sag.funciones.f_series module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-icon.sag.funciones.stats_code">icon.sag.funciones.stats_code module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-icon.sag.funciones.summary">icon.sag.funciones.summary module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-icon.sag.funciones">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="icon.sag.reportes.html">icon.sag.reportes package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#module-icon.sag.estr_sag">icon.sag.estr_sag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#icon-sag-g-estacionario-module">icon.sag.g_estacionario module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#module-icon.sag.g_tph">icon.sag.g_tph module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#module-icon.sag.g_weekSpiTphNSP">icon.sag.g_weekSpiTphNSP module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#module-icon.sag.m_polinomial">icon.sag.m_polinomial module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#module-icon.sag.orquestador_sag">icon.sag.orquestador_sag module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="icon.sag.html#module-icon.sag">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">sag</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Project-icon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="icon.sag.html">icon.sag package</a> &raquo;</li>
+        
+      <li>icon.sag.funciones package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/icon.sag.funciones.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="icon-sag-funciones-package">
+<h1>icon.sag.funciones package<a class="headerlink" href="#icon-sag-funciones-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-icon.sag.funciones.f_distribution">
+<span id="icon-sag-funciones-f-distribution-module"></span><h2>icon.sag.funciones.f_distribution module<a class="headerlink" href="#module-icon.sag.funciones.f_distribution" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="icon.sag.funciones.f_distribution.best_fit_distribution">
+<code class="sig-prename descclassname">icon.sag.funciones.f_distribution.</code><code class="sig-name descname">best_fit_distribution</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">bins=200</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">DISTRIBUTIONS=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_distribution.best_fit_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model data by finding best fit distribution to data</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-icon.sag.funciones.f_series">
+<span id="icon-sag-funciones-f-series-module"></span><h2>icon.sag.funciones.f_series module<a class="headerlink" href="#module-icon.sag.funciones.f_series" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.ACF_PACF">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">ACF_PACF</code><span class="sig-paren">(</span><em class="sig-param">pd_serie</em>, <em class="sig-param">test_stationary='adfuller'</em>, <em class="sig-param">alpha=0.05</em>, <em class="sig-param">lags=50</em>, <em class="sig-param">figsize=(5</em>, <em class="sig-param">5)</em>, <em class="sig-param">print_informationIC=False</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.ACF_PACF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.Graph_historial">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">Graph_historial</code><span class="sig-paren">(</span><em class="sig-param">antes_serie</em>, <em class="sig-param">post_serie=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">type_='mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.Graph_historial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.grupos_densidad">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">grupos_densidad</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">dbscan_parameters=None</em>, <em class="sig-param">kmean_parameters=None</em>, <em class="sig-param">plt_figure=True</em>, <em class="sig-param">reporte_path=None</em>, <em class="sig-param">boxplot_extremos=False</em>, <em class="sig-param">seed=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.grupos_densidad" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.mean_between">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">mean_between</code><span class="sig-paren">(</span><em class="sig-param">serie</em>, <em class="sig-param">cero=False</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.mean_between" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.plot_additivemodel">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">plot_additivemodel</code><span class="sig-paren">(</span><em class="sig-param">pd_serie</em>, <em class="sig-param">freq=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.plot_additivemodel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.plot_decompose">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">plot_decompose</code><span class="sig-paren">(</span><em class="sig-param">DecomposeResult</em>, <em class="sig-param">figsize=(15</em>, <em class="sig-param">13)</em>, <em class="sig-param">res_test_stationary='adfuller'</em>, <em class="sig-param">title=''</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.plot_decompose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.f_series.resampleWeek">
+<code class="sig-prename descclassname">icon.sag.funciones.f_series.</code><code class="sig-name descname">resampleWeek</code><span class="sig-paren">(</span><em class="sig-param">pd_serie</em>, <em class="sig-param">function='mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.f_series.resampleWeek" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-icon.sag.funciones.stats_code">
+<span id="icon-sag-funciones-stats-code-module"></span><h2>icon.sag.funciones.stats_code module<a class="headerlink" href="#module-icon.sag.funciones.stats_code" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.check_2samples">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">check_2samples</code><span class="sig-paren">(</span><em class="sig-param">pd_serie1</em>, <em class="sig-param">pd_serie2</em>, <em class="sig-param">title=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.check_2samples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.check_normal">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">check_normal</code><span class="sig-paren">(</span><em class="sig-param">pd_serie</em>, <em class="sig-param">bins=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.check_normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.desc_grupos">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">desc_grupos</code><span class="sig-paren">(</span><em class="sig-param">pd_</em>, <em class="sig-param">var</em>, <em class="sig-param">var_grupos</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.desc_grupos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.descriptivo">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">descriptivo</code><span class="sig-paren">(</span><em class="sig-param">df_pd</em>, <em class="sig-param">var_omitir=None</em>, <em class="sig-param">cuantiles=array([0.</em>, <em class="sig-param">0.1</em>, <em class="sig-param">0.2</em>, <em class="sig-param">0.3</em>, <em class="sig-param">0.4</em>, <em class="sig-param">0.5</em>, <em class="sig-param">0.6</em>, <em class="sig-param">0.7</em>, <em class="sig-param">0.8</em>, <em class="sig-param">0.9</em>, <em class="sig-param">1. ])</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.descriptivo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.forward_selected">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">forward_selected</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">response</em>, <em class="sig-param">choise_criteria='R2'</em>, <em class="sig-param">alpha=0.05</em>, <em class="sig-param">records=False</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.forward_selected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.grupos_densidad_2d">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">grupos_densidad_2d</code><span class="sig-paren">(</span><em class="sig-param">pd_serie1</em>, <em class="sig-param">pd_serie2</em>, <em class="sig-param">dbscan_parameters=None</em>, <em class="sig-param">kmean_parameters=None</em>, <em class="sig-param">xticks=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">legend=None</em>, <em class="sig-param">bins=50</em>, <em class="sig-param">reporte_path=None</em>, <em class="sig-param">boxplot_extremos=True</em>, <em class="sig-param">only_outlier_dbscan=False</em>, <em class="sig-param">only_majority_groups=False</em>, <em class="sig-param">plt_figure=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.grupos_densidad_2d" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.plot_pol">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">plot_pol</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">data</em>, <em class="sig-param">mod_pol</em>, <em class="sig-param">plt_figure=True</em>, <em class="sig-param">color=None</em>, <em class="sig-param">color_points=None</em>, <em class="sig-param">title=True</em>, <em class="sig-param">xlabel=True</em>, <em class="sig-param">ylabel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.plot_pol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.pol_stepwise">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">pol_stepwise</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">y</em>, <em class="sig-param">x=None</em>, <em class="sig-param">grade=2</em>, <em class="sig-param">method='stepwise'</em>, <em class="sig-param">alpha=0.05</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.pol_stepwise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.reg_plot">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">reg_plot</code><span class="sig-paren">(</span><em class="sig-param">pd_serie_x</em>, <em class="sig-param">pd_serie_y</em>, <em class="sig-param">loc=4</em>, <em class="sig-param">plt_figure=None</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.reg_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.reg_pol">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">reg_pol</code><span class="sig-paren">(</span><em class="sig-param">pd_df</em>, <em class="sig-param">y_name</em>, <em class="sig-param">grade=2</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.reg_pol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.stats_code.textonly">
+<code class="sig-prename descclassname">icon.sag.funciones.stats_code.</code><code class="sig-name descname">textonly</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">txt</em>, <em class="sig-param">fontsize=14</em>, <em class="sig-param">loc=2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.stats_code.textonly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-icon.sag.funciones.summary">
+<span id="icon-sag-funciones-summary-module"></span><h2>icon.sag.funciones.summary module<a class="headerlink" href="#module-icon.sag.funciones.summary" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="icon.sag.funciones.summary.SubSet">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">SubSet</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">var_name</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.SubSet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.chi2_category">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">chi2_category</code><span class="sig-paren">(</span><em class="sig-param">pd_df</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.chi2_category" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.elevator">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">elevator</code><span class="sig-paren">(</span><em class="sig-param">pd_</em>, <em class="sig-param">x</em>, <em class="sig-param">y=None</em>, <em class="sig-param">exponente=7</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.elevator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.freq">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">freq</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">name</em>, <em class="sig-param">name_col='freq'</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.freq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.get_week_day">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">get_week_day</code><span class="sig-paren">(</span><em class="sig-param">week_year</em>, <em class="sig-param">inicio=2014</em>, <em class="sig-param">fin=2023</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.get_week_day" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.mae">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">mae</code><span class="sig-paren">(</span><em class="sig-param">pd_serie1</em>, <em class="sig-param">pd_serie2</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.mae" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.mse">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">mse</code><span class="sig-paren">(</span><em class="sig-param">pd_serie1</em>, <em class="sig-param">pd_serie2</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.mse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.report_duplicated">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">report_duplicated</code><span class="sig-paren">(</span><em class="sig-param">pd_df</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.report_duplicated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.sacar_digitos">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">sacar_digitos</code><span class="sig-paren">(</span><em class="sig-param">str_</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.sacar_digitos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.sacar_ultimosNum">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">sacar_ultimosNum</code><span class="sig-paren">(</span><em class="sig-param">str_</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.sacar_ultimosNum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="icon.sag.funciones.summary.summary">
+<code class="sig-prename descclassname">icon.sag.funciones.summary.</code><code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param">pd_serie</em>, <em class="sig-param">category=True</em>, <em class="sig-param">percentiles=None</em>, <em class="sig-param">include=None</em>, <em class="sig-param">exclude=None</em>, <em class="sig-param">NAN=True</em>, <em class="sig-param">graph=False</em><span class="sig-paren">)</span><a class="headerlink" href="#icon.sag.funciones.summary.summary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-icon.sag.funciones">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-icon.sag.funciones" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="icon.sag.reportes.html" class="btn btn-neutral float-right" title="icon.sag.reportes package" accesskey="n">Next →</a>
+      
+      
+        <a href="icon.sag.html" class="btn btn-neutral" title="icon.sag package" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Unit.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

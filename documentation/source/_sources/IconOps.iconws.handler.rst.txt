@@ -1,0 +1,38 @@
+IconOps.iconws.handler package
+==============================
+
+Submodules
+----------
+
+IconOps.iconws.handler.onconnect module
+---------------------------------------
+
+.. automodule:: IconOps.iconws.handler.onconnect
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+IconOps.iconws.handler.onespesadores module
+-------------------------------------------
+
+.. automodule:: IconOps.iconws.handler.onespesadores
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+IconOps.iconws.handler.onsendmessage module
+-------------------------------------------
+
+.. automodule:: IconOps.iconws.handler.onsendmessage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: IconOps.iconws.handler
+   :members:
+   :undoc-members:
+   :show-inheritance:

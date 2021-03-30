@@ -1,0 +1,22 @@
+IconOps.iconapi.handler package
+===============================
+
+Submodules
+----------
+
+IconOps.iconapi.handler.handler module
+--------------------------------------
+
+.. automodule:: IconOps.iconapi.handler.handler
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: IconOps.iconapi.handler
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,4 @@
+Sphinx
+rtcat-sphinx-theme
+sphinxcontrib-napoleon
+git+git://github.com/SuperKogito/sphinxcontrib-pdfembed

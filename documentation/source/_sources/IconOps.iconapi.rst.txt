@@ -1,0 +1,18 @@
+IconOps.iconapi package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   IconOps.iconapi.handler
+
+Module contents
+---------------
+
+.. automodule:: IconOps.iconapi
+   :members:
+   :undoc-members:
+   :show-inheritance:

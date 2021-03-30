@@ -1,0 +1,381 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  SAM Template for a websockets sendmessage.
+Parameters:
+  TableName:
+    Type: String
+    Default: 'websockets-connections'
+    Description: Name of the new DynamoDB
+    MinLength: 3
+    MaxLength: 50
+    AllowedPattern: ^[A-Za-z_\-]+$
+Globals:
+  Function:
+    Timeout: 200
+
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: icon_cognito_auth_cognito_user_pool
+      LambdaConfig:
+        PreSignUp: !GetAtt PreSignupLambdaFunction.Arn
+        PostConfirmation: !GetAtt PostConfirmationLambdaFunction.Arn
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: False
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      UsernameAttributes:
+        - email
+      Schema:
+        - Name: name
+          Required: True
+          AttributeDataType: String
+        - Name: company
+          Mutable: True
+          Required: False
+          AttributeDataType: String
+          StringAttributeConstraints:
+            MinLength: 1
+            MaxLength: 256
+        - Name: usrl
+          Mutable: True
+          Required: False
+          AttributeDataType: Number
+
+  PreSignupLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cognitoHandler/
+      Handler: handler.lambda_handler
+      MemorySize: 256
+      Runtime: python3.7
+      Timeout: 3
+
+  PostConfirmationLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cognitoHandler/
+      Handler: handler.change_user_group
+      MemorySize: 256
+      Runtime: python3.7
+      Timeout: 3
+      Environment:
+        Variables:
+          ZERO: Operator 
+          ONE: Supervisor
+          TABLE_NAME: !Ref UsersTable
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref UsersTable
+      - Statement: 
+          - Effect: Allow
+            Action: cognito-idp:*
+            Resource: '*'
+
+  PreSignupLambdaFunctionExecutionPermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt PreSignupLambdaFunction.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPool}'
+
+  PostConfirmationLambdaFunctionExecutionPermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt PostConfirmationLambdaFunction.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPool}'
+
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: sam_cognito_auth_cognito_client
+      UserPoolId: !Ref CognitoUserPool
+
+  UserPoolGroupAdmins:
+    Type: 'AWS::Cognito::UserPoolGroup'
+    Properties:
+      GroupName: Admin
+      UserPoolId: !Ref CognitoUserPool
+
+  UserPoolGroupOperator:
+    Type: 'AWS::Cognito::UserPoolGroup'
+    Properties:
+      GroupName: Operator
+      UserPoolId: !Ref CognitoUserPool
+
+  UserPoolGroupSupervisor:
+    Type: 'AWS::Cognito::UserPoolGroup'
+    Properties:
+      GroupName: Supervisor
+      UserPoolId: !Ref CognitoUserPool
+
+  ConnectionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: tableId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: tableId
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      SSESpecification:
+        SSEEnabled: True
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: user_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: user_id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      SSESpecification:
+        SSEEnabled: True
+
+  IconWebSocket:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: IconWebSocket
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: '$request.body.action'
+
+  DevAuthorizerLambda:
+      Type: 'AWS::Serverless::Function'
+      Properties:
+        CodeUri: authorizer/
+        Handler: authorizer.lambda_handler
+        MemorySize: 256
+        Runtime: python3.7
+        Environment:
+          Variables:
+            UPID: !Ref CognitoUserPool
+            ACI: !Ref CognitoUserPoolClient
+            REGION: !Ref AWS::Region
+
+  ConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref IconWebSocket
+      RouteKey: $connect
+      OperationName: ConnectRoute
+      Target: !Join
+          - '/'
+          - - 'integrations'
+            - !Ref ConnectInteg
+  ConnectInteg:
+      Type: AWS::ApiGatewayV2::Integration
+      Properties:
+          ApiId: !Ref IconWebSocket
+          Description: Connect Integration
+          IntegrationType: AWS_PROXY
+          IntegrationUri: 
+              Fn::Sub:
+                  arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectFunction.Arn}/invocations
+  DisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref IconWebSocket
+      RouteKey: $disconnect
+      AuthorizationType: NONE
+      OperationName: DisconnectRoute
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref DisconnectInteg
+  DisconnectInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref IconWebSocket
+      Description: Disconnect Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: 
+        Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectFunction.Arn}/invocations
+  SendRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref IconWebSocket
+      RouteKey: sendmessage
+      AuthorizationType: NONE
+      OperationName: SendRoute
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref SendInteg
+  SendInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref IconWebSocket
+      Description: Send Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: 
+        Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SendMessageFunction.Arn}/invocations
+  
+  OnVerificationRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref IconWebSocket
+      RouteKey: onverification
+      AuthorizationType: NONE
+      OperationName: OnVerificationRoute
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref VerificationInteg
+
+  VerificationInteg:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref IconWebSocket
+      Description: Ver Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: 
+        Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnVerificationFunction.Arn}/invocations
+  
+  Deployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+    - ConnectRoute
+    - SendRoute
+    - DisconnectRoute
+    - OnVerificationRoute
+    Properties:
+      ApiId: !Ref IconWebSocket
+
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: Prod
+      Description: Prod Stage
+      DeploymentId: !Ref Deployment
+      ApiId: !Ref IconWebSocket
+
+  TrainModelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: modelHandler/
+      Handler: handler.lambda_handler
+      MemorySize: 256
+      Runtime: python3.7
+
+  OnVerificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: iconws/
+      Handler: onverification.lambda_handler
+      MemorySize: 256
+      Runtime: python3.7
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+          HANDLER_ARN: !GetAtt DevAuthorizerLambda.Arn
+      Policies:
+        Version: '2012-10-17'
+        Statement: 
+          - Effect: Allow
+            Action: dynamodb:*
+            Resource: 
+              - !GetAtt ConnectionsTable.Arn
+          - Effect: Allow
+            Action: 
+              - lambda:InvokeFunction
+            Resource: 
+              - !GetAtt DevAuthorizerLambda.Arn
+          - Effect: Allow
+            Action: cognito-idp:*
+            Resource: '*'
+
+  OnVerificationPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - IconWebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnVerificationFunction
+      Principal: apigateway.amazonaws.com
+
+  OnConnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: iconws/
+      Handler: onconnect.lambda_handler
+      MemorySize: 256
+      Runtime: python3.7
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+      Policies:
+        Version: '2012-10-17'
+        Statement: 
+          - Effect: Allow
+            Action: dynamodb:*
+            Resource: 
+              - !GetAtt ConnectionsTable.Arn
+
+  OnConnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - IconWebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnConnectFunction
+      Principal: apigateway.amazonaws.com
+
+  SendMessageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: iconws/
+      Handler: onsendmessage.lambda_handler
+      MemorySize: 256
+      Runtime: python3.7
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ConnectionsTable
+          DIR_NAME: sendmessage
+          HANDLER_ARN: !GetAtt DevAuthorizerLambda.Arn
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref ConnectionsTable
+      - Statement:
+        - Effect: Allow
+          Action:
+          - 'execute-api:ManageConnections'
+          - 'lambda:InvokeFunction'
+          Resource:
+          - 'arn:aws:execute-api:*:*:*/@connections/*'
+          - !GetAtt DevAuthorizerLambda.Arn
+  SendMessagePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - IconWebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref SendMessageFunction
+      Principal: apigateway.amazonaws.com
+Outputs:
+  ConnectionsTableArn:
+    Description: Connections table ARN
+    Value: !GetAtt ConnectionsTable.Arn
+
+  OnConnectFunctionArn:
+    Description: OnConnect function ARN
+    Value: !GetAtt OnConnectFunction.Arn
+
+  SendMessageFunctionArn:
+    Description: SendMessage function ARN
+    Value: !GetAtt SendMessageFunction.Arn

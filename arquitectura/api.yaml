@@ -1,0 +1,248 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  SAM Template for Icon proyect.
+Globals:
+  Function:
+    Timeout: 200
+
+#Esta version contiene la API y cognito. La api no esta conectada con cognito por temas de desarrollo
+#No olvidar activar
+
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: icon_cognito_auth_cognito_user_pool
+      LambdaConfig:
+        PreSignUp: !GetAtt PreSignupLambdaFunction.Arn
+        PostConfirmation: !GetAtt PostConfirmationLambdaFunction.Arn
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: False
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      UsernameAttributes:
+        - email
+      Schema:
+        - Name: name
+          Required: True
+          AttributeDataType: String
+        - Name: company
+          Mutable: True
+          Required: False
+          AttributeDataType: String
+          StringAttributeConstraints:
+            MinLength: 1
+            MaxLength: 256
+        - Name: usrl
+          Mutable: True
+          Required: False
+          AttributeDataType: Number
+
+  PreSignupLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cognitoHandler/
+      Handler: handler.lambda_handler
+      MemorySize: 256
+      Runtime: python3.7
+      Timeout: 3
+
+  PostConfirmationLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: cognitoHandler/
+      Handler: handler.change_user_group
+      MemorySize: 256
+      Runtime: python3.7
+      Timeout: 3
+      Environment:
+        Variables:
+          ZERO: Operator 
+          ONE: Supervisor
+          TABLE_NAME: !Ref UsersTable
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref UsersTable
+      - Statement: 
+          - Effect: Allow
+            Action: cognito-idp:*
+            Resource: '*'
+
+  PreSignupLambdaFunctionExecutionPermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt PreSignupLambdaFunction.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPool}'
+
+  PostConfirmationLambdaFunctionExecutionPermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt PostConfirmationLambdaFunction.Arn
+      Principal: cognito-idp.amazonaws.com
+      SourceArn: !Sub 'arn:${AWS::Partition}:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPool}'
+
+  CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: sam_cognito_auth_cognito_client
+      UserPoolId: !Ref CognitoUserPool
+
+  UserPoolGroupAdmins:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Admin
+      UserPoolId: !Ref CognitoUserPool
+
+  UserPoolGroupOperator:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Operator
+      UserPoolId: !Ref CognitoUserPool
+
+
+  UserPoolGroupSupervisor:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Supervisor
+      UserPoolId: !Ref CognitoUserPool
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: user_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: user_id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      SSESpecification:
+        SSEEnabled: True
+# Sugiero plantear una nueva formar de guardar la data para que sea mas optimo.
+  ModelTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: model
+        AttributeType: S
+      KeySchema:
+      - AttributeName: model
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      SSESpecification:
+        SSEEnabled: True
+
+  DevAuthorizerLambda:
+      Type: 'AWS::Serverless::Function'
+      Properties:
+        CodeUri: authorizer/
+        Handler: authorizer.lambda_handler
+        MemorySize: 256
+        Runtime: python3.7
+        Environment:
+          Variables:
+            UPID: !Ref CognitoUserPool
+            ACI: !Ref CognitoUserPoolClient
+            REGION: !Ref AWS::Region
+  
+  SrcBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName : !Sub ${AWS::StackName}sag-data
+
+  TrainModelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: modelHandler/
+      Handler: handler.lambda_handler
+      MemorySize: 512
+      Runtime: python3.7
+      Layers: 
+        - 'arn:aws:lambda:us-east-1:016572979516:layer:iconModel:1'
+      Policies:
+        Version: '2012-10-17'
+        Statement: 
+           -  Effect: Allow
+              Action: s3:*
+              Resource: 
+                - !Sub arn:aws:s3:::${AWS::StackName}sag-data/*
+                - !Sub arn:aws:s3:::${AWS::StackName}sag-data
+      Events:
+        SrcBucket:
+          Type: S3
+          Properties:
+            Bucket: !Ref 'SrcBucket'
+            Events: 's3:ObjectCreated:*'
+      EventInvokeConfig:
+        MaximumRetryAttempts: 0
+#Cognito esta desactivado, no olvidar agregar authorizer
+  IconApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub ${AWS::StackName}-Icon-Api
+      StageName: Dev
+
+  GetWeightFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: iconApi/
+      Handler: handler.lambda_handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ModelTable
+      Policies:
+        Version: '2012-10-17'
+        Statement: 
+          - Effect: Allow
+            Action: dynamodb:*
+            Resource: 
+              - !GetAtt ModelTable.Arn
+      Events:
+        GetWeightsAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref IconApi
+            Path: /simulator
+            Method: GET
+
+  TrainModelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: modelHandler/
+      Handler: handler.lambda_handler
+      MemorySize: 512
+      Runtime: python3.7
+      Layers: 
+        - 'arn:aws:lambda:us-east-1:016572979516:layer:layer-test:1'
+      Policies:
+        Version: '2012-10-17'
+        Statement: 
+           -  Effect: Allow
+              Action: s3:*
+              Resource: 
+                - !Sub arn:aws:s3:::${AWS::StackName}sag-data/*
+                - !Sub arn:aws:s3:::${AWS::StackName}sag-data
+                - arn:aws:s3:::euc-test
+      Events:
+        SrcBucket:
+          Type: S3
+          Properties:
+            Bucket: !Ref 'SrcBucket'
+            Events: 's3:ObjectCreated:*'
+      EventInvokeConfig:
+
+
+Outputs:
+  TrainModelFunction:
+    Description: Connections table ARN
+    Value: !GetAtt TrainModelFunction.Arn

@@ -1,0 +1,7 @@
+IconOps
+=======
+
+.. toctree::
+   :maxdepth: 4
+
+   IconOps
